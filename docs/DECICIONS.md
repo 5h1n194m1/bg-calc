@@ -156,3 +156,62 @@ Normalisasi nilai kosong ("") menjadi null dilakukan di Service Layer sebelum da
 
 - status = draft
 - is_public = true
+
+---
+
+## Tournament Module
+
+Status : LOCKED
+
+Tournament menggunakan struktur:
+
+app/Livewire/
+- Concerns/
+    - WithTournamentForm.php
+- Tournament/
+    - Create.php
+    - Edit.php
+    - Index.php
+
+resources/views/livewire/tournament/
+- _form.blade.php
+- _header.blade.php
+- _table.blade.php
+- _delete-modal.blade.php
+- create.blade.php
+- edit.blade.php
+- index.blade.php
+
+Create dan Edit berbagi validasi melalui WithTournamentForm.
+
+Create dan Edit berbagi tampilan form melalui _form.blade.php.
+
+Delete diimplementasikan sebagai action pada Index, bukan Livewire terpisah.
+
+---
+
+## Tournament
+
+Status : LOCKED
+
+Tournament CRUD menggunakan struktur:
+
+Livewire
+
+- Index
+- Create
+- Edit
+
+Blade
+
+- index
+- create
+- edit
+- _form
+- _header
+- _table
+- _delete-modal
+
+Business logic tetap berada pada TournamentService.
+
+Field jadwal (registration_start, registration_end, start_date, end_date) bersifat opsional (nullable) agar tournament dapat dibuat lebih awal dan dilengkapi kemudian melalui fitur Edit.

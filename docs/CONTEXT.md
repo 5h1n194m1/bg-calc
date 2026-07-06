@@ -24,9 +24,9 @@ Sprint 1
 
 ## Current Patch
 
-PATCH-008
+PATCH-011
 
-Tournament CREATE
+Tournament Workspace Foundation
 
 ---
 
@@ -63,9 +63,9 @@ app/
 - Enums
 
 resources/views/
-- layouts
-- livewire
+- components/layouts
 - components/ui
+- livewire
 
 ---
 
@@ -81,38 +81,50 @@ resources/views/
 - Livewire Configuration
 - Project Cleanup
 - Documentation
-- Tournament Index Foundation
+- Tournament CRUD
+- Tournament Index
 - Tournament Create
+- Tournament Edit
+- Tournament Delete
 
 ### In Progress
 
-- Tournament Edit
+- Tournament Workspace Foundation
 
 ### Next
 
-1. Tournament Edit
+1. Tournament Workspace
 2. Dashboard
-3. Tournament Workspace
-4. Team Manager
+3. Team Manager
 
 ---
 
 ## Current Notes
 
-Tournament membutuhkan:
+Tournament CRUD selesai.
 
-- Game
-- Point System Template
+Struktur yang digunakan:
 
-Sebelum Dashboard selesai, Tournament CRUD harus selesai.
+Route
+→ Livewire
+→ Service
+→ Model
+
+Create & Edit menggunakan:
+
+- WithTournamentForm
+- _form.blade.php
+
+Index menggunakan:
+
+- _header.blade.php
+- _table.blade.php
+- _delete-modal.blade.php
+
+Delete diimplementasikan langsung pada Index Livewire.
 
 ---
 
 ## Last Commit
 
-b03c408
-
-feat: implement tournament service
-
-
-ingat juga untuk hanya memberikan penjelasan 3 point saja dengan max 2 paragraf aja per poin, jangan pernah lebih
+feat: complete tournament crud

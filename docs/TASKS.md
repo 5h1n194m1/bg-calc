@@ -19,8 +19,19 @@
 
 - [x] Tournament Index
 - [x] Tournament Create
-- [ ] Tournament Edit
-- [ ] Tournament Delete
+- [x] Tournament Edit
+- [x] Tournament Delete
+
+---
+
+### Workspace
+
+- [ ] Tournament Workspace Foundation
+- [ ] Overview
+- [ ] Team Manager
+- [ ] Stage Manager
+- [ ] Match Manager
+- [ ] Leaderboard
 
 ---
 
@@ -29,16 +40,6 @@
 - [ ] Dashboard Layout
 - [ ] Tournament Statistics
 - [ ] Tournament Table
-
----
-
-### Workspace
-
-- [ ] Overview
-- [ ] Team Manager
-- [ ] Stage Manager
-- [ ] Match Manager
-- [ ] Leaderboard
 
 ---
 
