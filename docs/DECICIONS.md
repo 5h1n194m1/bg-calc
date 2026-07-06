@@ -272,3 +272,41 @@ Workspace menjadi pusat seluruh pengelolaan Tournament.
 Seluruh fitur berikutnya (Team Manager, Stage Manager, Match Manager, dan Leaderboard) dikembangkan melalui Workspace.
 
 Tidak ada refactor tambahan pada modul Tournament kecuali ditemukan bug atau kebutuhan arsitektur baru.
+
+---
+
+## Team Manager
+
+Status : FOUNDATION LOCKED
+
+Team Manager merupakan modul pertama yang berada di dalam Tournament Workspace.
+
+Struktur saat ini:
+
+Livewire
+
+- Tournament/Teams/Index.php
+
+Blade
+
+- tournament/teams/index.blade.php
+
+Workspace Header menggunakan:
+
+- _workspace-header.blade.php
+
+Seluruh halaman Team Manager wajib menggunakan Shared Workspace Header.
+
+Seluruh implementasi CRUD Team wajib mengikuti pola yang telah digunakan pada Tournament:
+
+Route
+→ Livewire
+→ Service
+→ Model
+→ Database
+
+Business logic tidak boleh ditempatkan di Livewire.
+
+File baru hanya dibuat ketika benar-benar dibutuhkan (Just In Time File Creation).
+
+Struktur folder Tournament Workspace dinyatakan LOCKED dan tidak boleh diubah tanpa keputusan arsitektur baru.

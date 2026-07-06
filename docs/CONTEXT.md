@@ -24,9 +24,9 @@ Sprint 1
 
 ## Current Patch
 
-PATCH-013
+PATCH-014
 
-Team Manager Foundation
+Team CRUD
 
 ---
 
@@ -48,7 +48,7 @@ Route
 → Service
 → Model
 
-Repository hanya digunakan untuk query kompleks.
+Repository digunakan hanya untuk query kompleks.
 
 ---
 
@@ -67,34 +67,40 @@ Repository hanya digunakan untuk query kompleks.
 - Tournament CRUD
 - Tournament Workspace Foundation
 - Tournament Workspace Overview
+- Team Manager Foundation
 
 ### In Progress
 
-- Team Manager Foundation
+- Team CRUD
 
 ### Next
 
-1. Stage Manager
-2. Match Manager
-3. Leaderboard
+1. Stage Manager Foundation
+2. Match Manager Foundation
+3. Leaderboard Foundation
 4. Dashboard
 
 ---
 
 ## Current Notes
 
-Modul Tournament telah di-lock.
+Module Tournament telah di-lock.
 
-Tournament terdiri dari:
+Workspace menjadi pusat seluruh pengelolaan Tournament.
 
-- CRUD
-- Workspace Foundation
-- Workspace Overview
+Team Manager Foundation telah selesai dan menjadi dasar implementasi Team CRUD.
 
-Seluruh pengembangan berikutnya dilakukan melalui Workspace.
+Seluruh CRUD mengikuti pola:
+
+Route
+→ Livewire
+→ Service
+→ Model
 
 ---
 
 ## Last Commit
 
-feat: implement tournament workspace foundation
+1940dcb
+
+docs: update tournament workspace overview

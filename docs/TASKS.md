@@ -26,20 +26,30 @@
 
 ---
 
+### Team Manager
+
+- [x] Team Manager Foundation
+- [ ] Team List
+- [ ] Team Create
+- [ ] Team Edit
+- [ ] Team Delete
+- [ ] Team Validation
+- [ ] Team Service
+- [ ] Team Pagination
+
+---
+
 ### Workspace
 
-- [ ] Team Manager Foundation
-- [ ] Stage Manager
-- [ ] Match Manager
-- [ ] Leaderboard
+- [ ] Stage Manager Foundation
+- [ ] Match Manager Foundation
+- [ ] Leaderboard Foundation
 
 ---
 
 ### Dashboard
 
-- [ ] Dashboard Layout
-- [ ] Tournament Statistics
-- [ ] Tournament Table
+- [ ] Dashboard
 
 ---
 
