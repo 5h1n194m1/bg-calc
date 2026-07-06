@@ -24,9 +24,9 @@ Sprint 1
 
 ## Current Patch
 
-PATCH-007
+PATCH-008
 
-Tournament CRUD Foundation
+Tournament CREATE
 
 ---
 
@@ -82,14 +82,15 @@ resources/views/
 - Project Cleanup
 - Documentation
 - Tournament Index Foundation
+- Tournament Create
 
 ### In Progress
 
-- Tournament Create
+- Tournament Edit
 
 ### Next
 
-1. Tournament Create
+1. Tournament Edit
 2. Dashboard
 3. Tournament Workspace
 4. Team Manager

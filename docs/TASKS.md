@@ -18,7 +18,7 @@
 ### Tournament
 
 - [x] Tournament Index
-- [ ] Tournament Create
+- [x] Tournament Create
 - [ ] Tournament Edit
 - [ ] Tournament Delete
 

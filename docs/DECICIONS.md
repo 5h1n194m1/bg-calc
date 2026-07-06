@@ -124,3 +124,35 @@ Setiap berpindah chat, gunakan file berikut sebagai sumber konteks utama:
 - docs/DECISIONS.md
 
 Jawaban harus mengacu pada kondisi project saat ini, bukan mengulang desain dari awal.
+
+---
+
+## Tournament Rules
+
+Status : LOCKED
+
+Tournament dapat dibuat dengan informasi minimum.
+
+### Required
+
+- game_id
+- point_system_template_id
+- name
+
+### Nullable
+
+- description
+- banner
+- registration_start
+- registration_end
+- start_date
+- end_date
+
+Field tanggal bersifat nullable karena kondisi turnamen lokal sering kali belum memiliki jadwal tetap pada saat pertama kali dibuat.
+
+Normalisasi nilai kosong ("") menjadi null dilakukan di Service Layer sebelum data disimpan ke database.
+
+### Default
+
+- status = draft
+- is_public = true
