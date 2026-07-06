@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->json('settings');
 
-            $table->boolean('default')->
+            $table->boolean('is_default')->
                 default(false);
 
             $table->timestamps();
