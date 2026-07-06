@@ -2,18 +2,38 @@
 
 > Last Updated: 2026-07-06
 
-## Current Status
+## Project
 
-- Branch : `feature/tournament-workspace`
-- Sprint : Sprint 1
-- Current Patch : PATCH-004
-- Focus : UI Foundation
+BG-CALC (Battleground Calculator)
+
+Tournament Management System untuk game Battleground.
+
+---
+
+## Current Branch
+
+feature/tournament-workspace
+
+---
+
+## Current Sprint
+
+Sprint 1
+
+---
+
+## Current Patch
+
+PATCH-007
+
+Tournament CRUD Foundation
 
 ---
 
 ## Tech Stack
 
 - Laravel 13
+- PHP 8.3
 - Livewire 4 (Class + Blade)
 - Tailwind CSS 4
 - Vite
@@ -28,49 +48,70 @@ Route
 → Service
 → Model
 
-Repository digunakan hanya untuk query yang kompleks.
+Repository digunakan hanya untuk query kompleks.
 
 ---
 
 ## Current Structure
 
 app/
+- Livewire
+- Models
+- Services
+- Repositories
 - Actions
 - Enums
-- Models
-- Repositories
-- Services
 
 resources/views/
 - layouts
-- components/ui
 - livewire
+- components/ui
 
 ---
 
 ## Progress
 
-### ✅ Done
+### Completed
 
 - Database Foundation
-- Model & Migration
-- Service Layer
-- Repository Layer
+- Models
+- Migration
+- Enum
+- Service Foundation
 - Livewire Configuration
-- Cleanup Baseline
+- Project Cleanup
+- Documentation
+- Tournament Index Foundation
 
-### 🔄 In Progress
+### In Progress
 
-- UI Foundation
+- Tournament Create
 
-### ⏭ Next
+### Next
 
-1. Dashboard
-2. Create Tournament
+1. Tournament Create
+2. Dashboard
 3. Tournament Workspace
+4. Team Manager
+
+---
+
+## Current Notes
+
+Tournament membutuhkan:
+
+- Game
+- Point System Template
+
+Sebelum Dashboard selesai, Tournament CRUD harus selesai.
 
 ---
 
 ## Last Commit
 
-9013c14
+b03c408
+
+feat: implement tournament service
+
+
+ingat juga untuk hanya memberikan penjelasan 3 point saja dengan max 2 paragraf aja per poin, jangan pernah lebih

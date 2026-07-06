@@ -1,13 +1,19 @@
 <?php
 
+use App\Livewire\Tournament\Create;
+use App\Livewire\Tournament\Index;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
 
-        Route::get('/', function () {
-            return 'Admin Dashboard';
-        })->name('dashboard');
+        Route::redirect('/', '/admin/tournaments');
+
+        Route::get('/tournaments', Index::class)
+            ->name('tournaments.index');
+
+        Route::get('/tournaments/create', Create::class)
+            ->name('tournaments.create');
 
     });

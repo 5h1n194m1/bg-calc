@@ -1,24 +1,24 @@
 # BG-CALC Decisions
 
-> Semua keputusan pada file ini dianggap FINAL sampai diputuskan untuk diubah.
+Semua keputusan pada file ini dianggap FINAL sampai diputuskan untuk diubah.
 
 ---
 
-## 2026-07-06
+## Livewire
 
-### Livewire
+Status : LOCKED
 
-Status : ✅ LOCKED
+Menggunakan Livewire 4 dengan pola:
 
-Menggunakan Livewire 4 dengan pola **Class + Blade**.
+Class + Blade
 
-Tidak menggunakan Single File Component (SFC) sebagai standar project.
+Tidak menggunakan Single File Component (SFC).
 
 ---
 
-### Architecture
+## Architecture
 
-Status : ✅ LOCKED
+Status : LOCKED
 
 Flow aplikasi:
 
@@ -27,21 +27,35 @@ Route
 → Service
 → Model
 
----
-
-### Repository
-
-Status : ✅ LOCKED
-
 Repository hanya digunakan untuk query kompleks.
 
-CRUD sederhana langsung melalui Service + Model.
+---
+
+## Service Layer
+
+Status : LOCKED
+
+Semua business logic berada di Service.
+
+Livewire tidak boleh berisi query database yang kompleks.
 
 ---
 
-### Styling
+## Repository
 
-Status : ✅ LOCKED
+Status : LOCKED
+
+Repository hanya digunakan bila query mulai kompleks atau digunakan di banyak tempat.
+
+CRUD sederhana menggunakan:
+
+Service → Model
+
+---
+
+## Styling
+
+Status : LOCKED
 
 - Tailwind CSS 4
 - Vite
@@ -49,26 +63,64 @@ Status : ✅ LOCKED
 
 ---
 
-### Git Workflow
+## Git Workflow
 
-Status : ✅ LOCKED
+Status : LOCKED
 
 Setiap PATCH:
 
 1. Implementasi
 2. Testing
 3. Commit
-4. Update `CONTEXT.md`
-5. Update `TASKS.md`
-6. Jika ada keputusan baru → Update `DECISIONS.md`
+4. Update CONTEXT.md
+5. Update TASKS.md
+6. Jika ada keputusan baru → Update DECISIONS.md
 
 ---
 
-### Development Principle
+## Development Workflow
 
-Status : ✅ LOCKED
+Status : LOCKED
 
-- Tidak mengubah arsitektur tanpa alasan yang jelas.
-- Tidak membuat folder baru jika struktur yang ada sudah memadai.
-- Reusable component lebih diutamakan daripada copy-paste.
-- Semua perubahan besar harus melalui PATCH yang jelas.
+Sebelum membuat fitur baru:
+
+1. Review struktur project.
+2. Review Model.
+3. Review Service.
+4. Baru implementasi.
+
+---
+
+## Commit Rules
+
+Status : LOCKED
+
+Satu PATCH = satu commit utama.
+
+Commit kecil hanya untuk fix atau cleanup.
+
+---
+
+## Branch Rules
+
+Status : LOCKED
+
+Semua implementasi Sprint 1 dilakukan di:
+
+feature/tournament-workspace
+
+Merge ke develop-v2 setelah Sprint 1 selesai dan stabil.
+
+---
+
+## AI Collaboration Rules
+
+Status : LOCKED
+
+Setiap berpindah chat, gunakan file berikut sebagai sumber konteks utama:
+
+- docs/CONTEXT.md
+- docs/TASKS.md
+- docs/DECISIONS.md
+
+Jawaban harus mengacu pada kondisi project saat ini, bukan mengulang desain dari awal.

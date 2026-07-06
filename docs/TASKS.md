@@ -5,34 +5,54 @@
 ### Foundation
 
 - [x] Database Foundation
-- [x] Services
-- [x] Repositories
+- [x] Models
+- [x] Migrations
+- [x] Repository Layer
+- [x] Service Layer
 - [x] Livewire Configuration
-- [x] Cleanup Baseline
+- [x] Project Cleanup
+- [x] Project Documentation
 
-### UI
+---
 
-- [ ] UI Foundation
-- [ ] Dashboard
-- [ ] Create Tournament
-- [ ] Tournament Workspace
+### Tournament
+
+- [x] Tournament Index
+- [ ] Tournament Create
+- [ ] Tournament Edit
+- [ ] Tournament Delete
+
+---
+
+### Dashboard
+
+- [ ] Dashboard Layout
+- [ ] Tournament Statistics
+- [ ] Tournament Table
+
+---
+
+### Workspace
+
+- [ ] Overview
+- [ ] Team Manager
+- [ ] Stage Manager
+- [ ] Match Manager
+- [ ] Leaderboard
 
 ---
 
 ## Sprint 2
 
-- [ ] Team Manager
-- [ ] Stage Manager
-- [ ] Match Manager
-- [ ] Score Manager
-- [ ] Leaderboard
+- [ ] Promotion Rules
+- [ ] Activity Log
+- [ ] Guest Portal
+- [ ] Settings
 
 ---
 
 ## Sprint 3
 
-- [ ] Guest Portal
-- [ ] Activity Log
-- [ ] Settings
 - [ ] Testing
 - [ ] Optimization
+- [ ] Deployment
