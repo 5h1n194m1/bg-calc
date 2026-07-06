@@ -14,12 +14,10 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      */
     public function run(): void
-    {
-        User::factory()->create([
-            'name' => 'Administrator',
-            'username' => 'admin',
-            'email' => 'admin@bgcalc.test',
-            'password' => bcrypt('password'),
-        ]);
-    }
+{
+    $this->call([
+        GameSeeder::class,
+        PointSystemTemplateSeeder::class,
+    ]);
+}
 }
