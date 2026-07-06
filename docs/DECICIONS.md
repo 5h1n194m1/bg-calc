@@ -1,24 +1,20 @@
 # BG-CALC Decisions
 
-Semua keputusan pada file ini dianggap FINAL sampai diputuskan untuk diubah.
+Seluruh keputusan pada file ini bersifat **LOCKED** dan dianggap final sampai diputuskan untuk diubah.
 
 ---
 
-## Livewire
+# Tech Stack
 
-Status : LOCKED
-
-Menggunakan Livewire 4 dengan pola:
-
-Class + Blade
-
-Tidak menggunakan Single File Component (SFC).
+- Livewire 4 (Class + Blade)
+- Tailwind CSS 4
+- Vite
+- Tidak menggunakan Single File Component (SFC)
+- Tidak menggunakan Tailwind CDN
 
 ---
 
-## Architecture
-
-Status : LOCKED
+# Architecture
 
 Flow aplikasi:
 
@@ -26,61 +22,18 @@ Route
 → Livewire
 → Service
 → Model
+→ Database
 
-Repository hanya digunakan untuk query kompleks.
+Ketentuan:
 
----
-
-## Service Layer
-
-Status : LOCKED
-
-Semua business logic berada di Service.
-
-Livewire tidak boleh berisi query database yang kompleks.
+- Seluruh business logic berada di Service.
+- Livewire hanya menangani UI, state, validasi, dan pemanggilan Service.
+- Repository hanya digunakan untuk query kompleks atau yang digunakan di banyak tempat.
+- CRUD sederhana langsung menggunakan Service → Model.
 
 ---
 
-## Repository
-
-Status : LOCKED
-
-Repository hanya digunakan bila query mulai kompleks atau digunakan di banyak tempat.
-
-CRUD sederhana menggunakan:
-
-Service → Model
-
----
-
-## Styling
-
-Status : LOCKED
-
-- Tailwind CSS 4
-- Vite
-- Tidak menggunakan Tailwind CDN.
-
----
-
-## Git Workflow
-
-Status : LOCKED
-
-Setiap PATCH:
-
-1. Implementasi
-2. Testing
-3. Commit
-4. Update CONTEXT.md
-5. Update TASKS.md
-6. Jika ada keputusan baru → Update DECISIONS.md
-
----
-
-## Development Workflow
-
-Status : LOCKED
+# Development Workflow
 
 Sebelum membuat fitur baru:
 
@@ -89,49 +42,46 @@ Sebelum membuat fitur baru:
 3. Review Service.
 4. Baru implementasi.
 
+Setiap PATCH:
+
+1. Implementasi
+2. Testing
+3. Commit
+4. Update `docs/CONTEXT.md`
+5. Update `docs/TASKS.md`
+6. Jika ada keputusan baru → Update `docs/DECISIONS.md`
+
 ---
 
-## Commit Rules
+# Git Workflow
 
-Status : LOCKED
+- Seluruh Sprint 1 dikerjakan pada branch:
 
-Satu PATCH = satu commit utama.
-
-Commit kecil hanya untuk fix atau cleanup.
-
----
-
-## Branch Rules
-
-Status : LOCKED
-
-Semua implementasi Sprint 1 dilakukan di:
-
+```
 feature/tournament-workspace
+```
 
-Merge ke develop-v2 setelah Sprint 1 selesai dan stabil.
+- Merge ke `develop-v2` setelah Sprint 1 stabil.
+- Satu PATCH = satu commit utama.
+- Commit tambahan hanya untuk fix atau cleanup.
 
 ---
 
-## AI Collaboration Rules
+# AI Collaboration
 
-Status : LOCKED
-
-Setiap berpindah chat, gunakan file berikut sebagai sumber konteks utama:
+Setiap berpindah chat, gunakan sebagai sumber konteks utama:
 
 - docs/CONTEXT.md
 - docs/TASKS.md
 - docs/DECISIONS.md
 
-Jawaban harus mengacu pada kondisi project saat ini, bukan mengulang desain dari awal.
+Jawaban harus mengikuti kondisi project saat ini dan tidak mengulang perancangan dari awal.
 
 ---
 
-## Tournament Rules
+# Tournament
 
-Status : LOCKED
-
-Tournament dapat dibuat dengan informasi minimum.
+Tournament dapat dibuat dengan data minimum.
 
 ### Required
 
@@ -148,9 +98,7 @@ Tournament dapat dibuat dengan informasi minimum.
 - start_date
 - end_date
 
-Field tanggal bersifat nullable karena kondisi turnamen lokal sering kali belum memiliki jadwal tetap pada saat pertama kali dibuat.
-
-Normalisasi nilai kosong ("") menjadi null dilakukan di Service Layer sebelum data disimpan ke database.
+Seluruh string kosong (`""`) dinormalisasi menjadi `null` di Service.
 
 ### Default
 
@@ -159,154 +107,85 @@ Normalisasi nilai kosong ("") menjadi null dilakukan di Service Layer sebelum da
 
 ---
 
-## Tournament Module
+# Tournament Module
 
-Status : LOCKED
+Status: **COMPLETED (Sprint 1)**
 
-Tournament menggunakan struktur:
+Struktur:
 
+```
 app/Livewire/
-- Concerns/
-    - WithTournamentForm.php
-- Tournament/
-    - Create.php
-    - Edit.php
-    - Index.php
+├── Concerns/
+│   └── WithTournamentForm.php
+└── Tournament/
+    ├── Index.php
+    ├── Create.php
+    ├── Edit.php
+    └── Workspace.php
 
 resources/views/livewire/tournament/
-- _form.blade.php
-- _header.blade.php
-- _table.blade.php
-- _delete-modal.blade.php
-- create.blade.php
-- edit.blade.php
-- index.blade.php
+├── _form.blade.php
+├── _header.blade.php
+├── _table.blade.php
+├── _delete-modal.blade.php
+├── _workspace-header.blade.php
+├── index.blade.php
+├── create.blade.php
+├── edit.blade.php
+└── workspace.blade.php
+```
 
-Create dan Edit berbagi validasi melalui WithTournamentForm.
+Ketentuan:
 
-Create dan Edit berbagi tampilan form melalui _form.blade.php.
+- Create dan Edit menggunakan `WithTournamentForm`.
+- Create dan Edit berbagi `_form.blade.php`.
+- Delete diimplementasikan pada `Index`.
+- Seluruh business logic berada di `TournamentService`.
+- Workspace menjadi pusat seluruh pengelolaan Tournament.
+- Tidak ada refactor tambahan kecuali bug atau keputusan arsitektur baru.
 
-Delete diimplementasikan sebagai action pada Index, bukan Livewire terpisah.
+Flow:
 
----
-
-## Tournament
-
-Status : LOCKED
-
-Tournament CRUD menggunakan struktur:
-
-Livewire
-
-- Index
-- Create
-- Edit
-
-Blade
-
-- index
-- create
-- edit
-- _form
-- _header
-- _table
-- _delete-modal
-
-Business logic tetap berada pada TournamentService.
-
-Field jadwal (registration_start, registration_end, start_date, end_date) bersifat opsional (nullable) agar tournament dapat dibuat lebih awal dan dilengkapi kemudian melalui fitur Edit.
-
----
-
-## Tournament Workspace
-
-Status : LOCKED
-
-Tournament Workspace menjadi halaman utama setelah admin memilih Tournament.
-
-Flow navigasi:
-
+```
 Tournament List
-→ Tournament Workspace
-→ Team Manager
-→ Stage Manager
-→ Match Manager
-→ Leaderboard
-
-Workspace menggunakan struktur:
-
-Livewire
-
-- Workspace.php
-
-Blade
-
-- workspace.blade.php
-
-Workspace menyediakan:
-
-- Back to Tournaments
-- Edit Tournament
-- Navigation Tabs
-- Overview
-
-Seluruh fitur Tournament selanjutnya dikembangkan dari Workspace, bukan lagi dari halaman Index.
-
+    ↓
+Workspace
+    ├── Overview
+    ├── Team Manager
+    ├── Stage Manager
+    ├── Match Manager
+    └── Leaderboard
+```
 
 ---
 
-## Tournament Module
+# Team Manager
 
-Status : LOCKED
+Status: **FOUNDATION LOCKED**
 
-Modul Tournament dinyatakan selesai pada Sprint 1.
+Struktur awal:
 
-Ruang lingkup modul meliputi:
+```
+app/Livewire/Tournament/Teams/
+└── Index.php
 
-- Tournament CRUD
-- Tournament Workspace Foundation
-- Tournament Workspace Overview
+resources/views/livewire/tournament/teams/
+└── index.blade.php
+```
 
-Workspace menjadi pusat seluruh pengelolaan Tournament.
+Ketentuan:
 
-Seluruh fitur berikutnya (Team Manager, Stage Manager, Match Manager, dan Leaderboard) dikembangkan melalui Workspace.
+- Menggunakan Shared Workspace Header (`_workspace-header.blade.php`).
+- Mengikuti arsitektur project:
 
-Tidak ada refactor tambahan pada modul Tournament kecuali ditemukan bug atau kebutuhan arsitektur baru.
-
----
-
-## Team Manager
-
-Status : FOUNDATION LOCKED
-
-Team Manager merupakan modul pertama yang berada di dalam Tournament Workspace.
-
-Struktur saat ini:
-
-Livewire
-
-- Tournament/Teams/Index.php
-
-Blade
-
-- tournament/teams/index.blade.php
-
-Workspace Header menggunakan:
-
-- _workspace-header.blade.php
-
-Seluruh halaman Team Manager wajib menggunakan Shared Workspace Header.
-
-Seluruh implementasi CRUD Team wajib mengikuti pola yang telah digunakan pada Tournament:
-
+```
 Route
 → Livewire
 → Service
 → Model
 → Database
+```
 
-Business logic tidak boleh ditempatkan di Livewire.
-
-File baru hanya dibuat ketika benar-benar dibutuhkan (Just In Time File Creation).
-
-Struktur folder Tournament Workspace dinyatakan LOCKED dan tidak boleh diubah tanpa keputusan arsitektur baru.
+- Business logic tetap berada di Service.
+- File baru dibuat hanya saat benar-benar diperlukan (Just In Time File Creation).
+- Struktur folder Tournament Workspace tidak boleh diubah tanpa keputusan arsitektur baru.
