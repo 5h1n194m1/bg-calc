@@ -24,9 +24,9 @@ Sprint 1
 
 ## Current Patch
 
-PATCH-011
+PATCH-012
 
-Tournament Workspace Foundation
+Tournament Workspace Overview
 
 ---
 
@@ -82,26 +82,25 @@ resources/views/
 - Project Cleanup
 - Documentation
 - Tournament CRUD
-- Tournament Index
-- Tournament Create
-- Tournament Edit
-- Tournament Delete
+- Tournament Workspace Foundation
 
 ### In Progress
 
-- Tournament Workspace Foundation
+- Tournament Workspace Overview
 
 ### Next
 
-1. Tournament Workspace
-2. Dashboard
-3. Team Manager
+1. Team Manager
+2. Stage Manager
+3. Match Manager
+4. Leaderboard
+5. Dashboard
 
 ---
 
 ## Current Notes
 
-Tournament CRUD selesai.
+Tournament Module selesai sebagai fondasi.
 
 Struktur yang digunakan:
 
@@ -121,10 +120,15 @@ Index menggunakan:
 - _table.blade.php
 - _delete-modal.blade.php
 
-Delete diimplementasikan langsung pada Index Livewire.
+Workspace menggunakan:
+
+- Workspace.php
+- workspace.blade.php
+
+Workspace menjadi pusat seluruh manajemen Tournament.
 
 ---
 
 ## Last Commit
 
-feat: complete tournament crud
+feat: implement tournament workspace foundation

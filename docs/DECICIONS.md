@@ -215,3 +215,39 @@ Blade
 Business logic tetap berada pada TournamentService.
 
 Field jadwal (registration_start, registration_end, start_date, end_date) bersifat opsional (nullable) agar tournament dapat dibuat lebih awal dan dilengkapi kemudian melalui fitur Edit.
+
+---
+
+## Tournament Workspace
+
+Status : LOCKED
+
+Tournament Workspace menjadi halaman utama setelah admin memilih Tournament.
+
+Flow navigasi:
+
+Tournament List
+→ Tournament Workspace
+→ Team Manager
+→ Stage Manager
+→ Match Manager
+→ Leaderboard
+
+Workspace menggunakan struktur:
+
+Livewire
+
+- Workspace.php
+
+Blade
+
+- workspace.blade.php
+
+Workspace menyediakan:
+
+- Back to Tournaments
+- Edit Tournament
+- Navigation Tabs
+- Overview
+
+Seluruh fitur Tournament selanjutnya dikembangkan dari Workspace, bukan lagi dari halaman Index.

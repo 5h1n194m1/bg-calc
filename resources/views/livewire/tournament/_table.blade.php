@@ -4,7 +4,7 @@
 
         <thead class="bg-gray-100">
             <tr>
-                <th class="px-4 py-3 text-left">Tournament</th>
+                <th class="px-4 py-3 text-left">Tournament Name</th>
                 <th class="px-4 py-3 text-left">Game</th>
                 <th class="px-4 py-3 text-left">Status</th>
                 <th class="px-4 py-3 text-left">Public</th>
@@ -20,7 +20,7 @@
 
                     <td class="px-4 py-3">
                         <a
-                            href="{{ route('admin.tournaments.edit', $tournament) }}"
+                            href="{{ route('admin.tournaments.workspace', $tournament) }}"
                             class="text-indigo-600 hover:underline">
                             {{ $tournament->name }}
                         </a>
