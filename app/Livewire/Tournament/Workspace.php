@@ -11,7 +11,10 @@ class Workspace extends Component
 
     public function mount(Tournament $tournament): void
     {
-        $this->tournament = $tournament;
+        $this->tournament = $tournament->load([
+            'game',
+            'pointSystem',
+        ]);
     }
 
     public function render()

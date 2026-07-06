@@ -251,3 +251,24 @@ Workspace menyediakan:
 - Overview
 
 Seluruh fitur Tournament selanjutnya dikembangkan dari Workspace, bukan lagi dari halaman Index.
+
+
+---
+
+## Tournament Module
+
+Status : LOCKED
+
+Modul Tournament dinyatakan selesai pada Sprint 1.
+
+Ruang lingkup modul meliputi:
+
+- Tournament CRUD
+- Tournament Workspace Foundation
+- Tournament Workspace Overview
+
+Workspace menjadi pusat seluruh pengelolaan Tournament.
+
+Seluruh fitur berikutnya (Team Manager, Stage Manager, Match Manager, dan Leaderboard) dikembangkan melalui Workspace.
+
+Tidak ada refactor tambahan pada modul Tournament kecuali ditemukan bug atau kebutuhan arsitektur baru.

@@ -24,9 +24,9 @@ Sprint 1
 
 ## Current Patch
 
-PATCH-012
+PATCH-013
 
-Tournament Workspace Overview
+Team Manager Foundation
 
 ---
 
@@ -34,7 +34,7 @@ Tournament Workspace Overview
 
 - Laravel 13
 - PHP 8.3
-- Livewire 4 (Class + Blade)
+- Livewire 4
 - Tailwind CSS 4
 - Vite
 - MySQL
@@ -48,24 +48,7 @@ Route
 → Service
 → Model
 
-Repository digunakan hanya untuk query kompleks.
-
----
-
-## Current Structure
-
-app/
-- Livewire
-- Models
-- Services
-- Repositories
-- Actions
-- Enums
-
-resources/views/
-- components/layouts
-- components/ui
-- livewire
+Repository hanya digunakan untuk query kompleks.
 
 ---
 
@@ -83,49 +66,32 @@ resources/views/
 - Documentation
 - Tournament CRUD
 - Tournament Workspace Foundation
+- Tournament Workspace Overview
 
 ### In Progress
 
-- Tournament Workspace Overview
+- Team Manager Foundation
 
 ### Next
 
-1. Team Manager
-2. Stage Manager
-3. Match Manager
-4. Leaderboard
-5. Dashboard
+1. Stage Manager
+2. Match Manager
+3. Leaderboard
+4. Dashboard
 
 ---
 
 ## Current Notes
 
-Tournament Module selesai sebagai fondasi.
+Modul Tournament telah di-lock.
 
-Struktur yang digunakan:
+Tournament terdiri dari:
 
-Route
-→ Livewire
-→ Service
-→ Model
+- CRUD
+- Workspace Foundation
+- Workspace Overview
 
-Create & Edit menggunakan:
-
-- WithTournamentForm
-- _form.blade.php
-
-Index menggunakan:
-
-- _header.blade.php
-- _table.blade.php
-- _delete-modal.blade.php
-
-Workspace menggunakan:
-
-- Workspace.php
-- workspace.blade.php
-
-Workspace menjadi pusat seluruh manajemen Tournament.
+Seluruh pengembangan berikutnya dilakukan melalui Workspace.
 
 ---
 

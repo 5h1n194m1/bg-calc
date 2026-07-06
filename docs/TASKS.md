@@ -22,13 +22,13 @@
 - [x] Tournament Edit
 - [x] Tournament Delete
 - [x] Tournament Workspace Foundation
-- [ ] Tournament Workspace Overview
+- [x] Tournament Workspace Overview
 
 ---
 
 ### Workspace
 
-- [ ] Team Manager
+- [ ] Team Manager Foundation
 - [ ] Stage Manager
 - [ ] Match Manager
 - [ ] Leaderboard
