@@ -24,9 +24,9 @@ Sprint 1
 
 ## Current Patch
 
-PATCH-015
+PATCH-016
 
-Team CRUD
+Team Create
 
 ---
 
@@ -67,48 +67,47 @@ Repository digunakan hanya untuk query kompleks.
 - Tournament CRUD
 - Tournament Workspace Foundation
 - Tournament Workspace Overview
-- Team Manager Foundation
 - Team Database Foundation
-- TournamentEntry Database Foundation
-- Team Relationships
+- Team List
 
 ### In Progress
 
-- Team CRUD
+- Team Create
 
 ### Next
 
-1. Team Service
-2. Team Create
-3. Team Edit
-4. Team Delete
-5. Team Validation
-6. Stage Manager Foundation
-7. Match Manager Foundation
-8. Leaderboard Foundation
-9. Dashboard
+1. Team Edit
+2. Team Delete
+3. Stage Manager Foundation
+4. Match Manager Foundation
+5. Leaderboard Foundation
+6. Dashboard
 
 ---
 
 ## Current Notes
 
-Module Tournament telah di-lock.
+Tournament Module telah di-lock.
 
 Workspace menjadi pusat seluruh pengelolaan Tournament.
 
-Team Manager Foundation telah selesai dan menjadi dasar implementasi Team CRUD.
+Team Database Foundation telah selesai.
 
-PATCH-014 telah selesai dan di-freeze setelah implementasi database foundation untuk Team dan TournamentEntry berhasil divalidasi.
+Team List telah selesai.
 
-Seluruh CRUD mengikuti pola:
+Seluruh Team List menggunakan:
 
 Route
 → Livewire
-→ Service
+→ TeamService
 → Model
+
+Business Logic tetap berada di TeamService.
+
+PATCH-016 dimulai dari Team Create.
 
 ---
 
 ## Last Commit
 
-feat(team): implement team database foundation
+feat(team): implement team list

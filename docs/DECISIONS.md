@@ -200,3 +200,64 @@ Route
 - File baru dibuat hanya saat benar-benar diperlukan (Just In Time File Creation).
 - Struktur folder Tournament Workspace tidak boleh diubah tanpa keputusan arsitektur baru.
 - PATCH-015 melanjutkan implementasi Team CRUD di atas fondasi database yang telah di-lock.
+
+---
+
+# Team Manager
+
+Status: **LIST LOCKED**
+
+PATCH-014
+
+Completed:
+
+- Team Database Foundation
+
+PATCH-015
+
+Completed:
+
+- Team List
+
+Ketentuan:
+
+- Team List mengambil data melalui TeamService.
+- Livewire tidak mengandung business logic.
+- Data Team berasal dari TournamentEntry.
+- Pagination menggunakan standar Laravel.
+- Empty State wajib tersedia ketika Tournament belum memiliki Team.
+
+Workflow implementasi Team mengikuti pola:
+
+Database Foundation
+↓
+
+Model
+
+↓
+
+Service
+
+↓
+
+Livewire
+
+↓
+
+Blade
+
+↓
+
+Testing
+
+↓
+
+Review
+
+↓
+
+Lock PATCH
+
+UI bukan prioritas pada Sprint 1.
+
+Selama fungsionalitas telah sesuai arsitektur, improvement visual akan dilakukan pada patch atau sprint terpisah untuk menghindari scope creep.

@@ -23,22 +23,51 @@
             <thead class="bg-gray-100">
                 <tr>
                     <th class="px-4 py-3 text-left">Team Name</th>
-                    <th class="px-4 py-3 text-left">Status</th>
+                    <th class="px-4 py-3 text-left">Seed</th>
+                    <th class="px-4 py-3 text-left">Notes</th>
                     <th class="px-4 py-3 text-center">Action</th>
                 </tr>
             </thead>
 
             <tbody>
 
-                <tr>
-                    <td colspan="3" class="px-4 py-12 text-center text-gray-500">
-                        No teams have been added yet.
-                    </td>
-                </tr>
+                @forelse($entries as $entry)
+                    <tr class="border-t">
+
+                        <td class="px-4 py-3">
+                            {{ $entry->team->name }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ $entry->seed ?? '-' }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ $entry->notes ?? '-' }}
+                        </td>
+
+                        <td class="px-4 py-3 text-center">
+                            -
+                        </td>
+
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="px-4 py-12 text-center text-gray-500">
+                            No teams have been added yet.
+                        </td>
+                    </tr>
+                @endforelse
 
             </tbody>
 
         </table>
+
+        @if($entries->hasPages())
+            <div class="border-t px-4 py-4">
+                {{ $entries->links() }}
+            </div>
+        @endif
 
     </div>
 
