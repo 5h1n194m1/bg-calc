@@ -2,14 +2,18 @@
 
 namespace App\Livewire\Tournament;
 
+use App\Models\Tournament;
 use App\Services\TournamentService;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Tournament;
 
 class Index extends Component
 {
     use WithPagination;
+
+    public bool $confirmingDelete = false;
+
+    public ?Tournament $tournamentToDelete = null;
 
     public function render(TournamentService $service)
     {
@@ -28,13 +32,9 @@ class Index extends Component
     {
         if ($this->tournamentToDelete) {
             $service->delete($this->tournamentToDelete);
+        }
+
+        $this->confirmingDelete = false;
+        $this->tournamentToDelete = null;
     }
-
-    $this->confirmingDelete = false;
-    $this->tournamentToDelete = null;
-    }
-
-    public bool $confirmingDelete = false;
-
-    public ?Tournament $tournamentToDelete = null;
 }

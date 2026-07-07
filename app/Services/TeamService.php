@@ -63,7 +63,7 @@ class TeamService
                 'name' => $data['name'],
             ]);
 
-            $entry->rosters()->forcedelete();
+            $entry->rosters()->forceDelete();
 
             foreach ($data['rosters'] as $index => $playerName) {
 
@@ -79,6 +79,31 @@ class TeamService
             }
 
             return $entry->team->fresh();
+        });
+    }
+
+    protected function canDelete(TournamentEntry $entry): bool
+    {
+        // PATCH-018
+        // Belum ada Stage / Match / Score / Leaderboard.
+        // Seluruh team masih boleh dihapus.
+
+        return true;
+    }
+
+    public function deleteTeam(TournamentEntry $entry): void
+    {
+        DB::transaction(function () use ($entry) {
+
+            if (! $this->canDelete($entry)) {
+                abort(403, 'Team cannot be deleted because it has already been used.');
+            }
+
+            $entry->rosters()->delete();
+
+            $entry->delete();
+
+            $entry->team->delete();
         });
     }
 }

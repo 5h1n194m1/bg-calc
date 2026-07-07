@@ -16,6 +16,12 @@
 
     </div>
 
+    @if (session()->has('success'))
+        <div class="rounded-lg bg-green-100 px-4 py-3 text-green-700">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="overflow-hidden rounded-xl border bg-white">
 
         <table class="min-w-full">
@@ -46,7 +52,7 @@
                             {{ $entry->notes ?? '-' }}
                         </td>
 
-                        <td class="px-4 py-3 text-center">
+                        <td class="px-4 py-3 text-center space-x-2">
 
                             <a
                                 href="{{ route('admin.tournaments.teams.edit', [
@@ -56,6 +62,14 @@
                                 class="rounded border px-3 py-1 hover:bg-gray-100">
                                 Edit
                             </a>
+
+                            <button
+                                type="button"
+                                wire:click="delete({{ $entry->id }})"
+                                wire:confirm="Delete this team?"
+                                class="rounded border border-red-300 px-3 py-1 text-red-600 hover:bg-red-50">
+                                Delete
+                            </button>
 
                         </td>
 

@@ -140,19 +140,6 @@ Ketentuan:
 - Workspace menjadi pusat pengelolaan Tournament.
 - Tidak ada refactor tanpa keputusan arsitektur baru.
 
-Flow:
-
-```
-Tournament
-    ↓
-Workspace
-    ├── Overview
-    ├── Team Manager
-    ├── Stage Manager
-    ├── Match Manager
-    └── Leaderboard
-```
-
 ---
 
 # Team Manager
@@ -162,34 +149,20 @@ Status:
 - **PATCH-014 DATABASE FOUNDATION LOCKED**
 - **PATCH-015 TEAM LIST LOCKED**
 - **PATCH-016 TEAM REGISTRATION LOCKED**
+- **PATCH-017 TEAM EDIT LOCKED**
+- **PATCH-018 TEAM DELETE LOCKED**
 
-Struktur:
+Arsitektur tetap:
 
 ```
-app/Livewire/Tournament/Teams/
-└── Index.php
-
-resources/views/livewire/tournament/teams/
-└── index.blade.php
+Route
+→ Livewire
+→ TeamService
+→ Model
+→ Database
 ```
 
-PATCH-014 Completed:
-
-- Team Model
-- TournamentEntry Model
-- Team Migration
-- TournamentEntry Migration
-- Team Relationships
-- Foreign Key Constraints
-- SoftDeletes Support
-
-PATCH-015 Completed:
-
-- Team List
-
-PATCH-016:
-
-Business Process:
+Business Process Team Registration:
 
 ```
 Tournament
@@ -205,75 +178,89 @@ Create Roster
 Finish
 ```
 
-Arsitektur tetap:
+Business Process Team Edit:
 
 ```
-Route
-→ Livewire
-→ Service
-→ Model
-→ Database
+TournamentEntry
+      ↓
+Update Team
+      ↓
+Replace Roster Snapshot
+      ↓
+Finish
+```
+
+Business Process Team Delete:
+
+```
+Open Team
+      ↓
+Delete
+      ↓
+canDelete()
+      ↓
+Soft Delete Team
+      ↓
+Soft Delete TournamentEntry
+      ↓
+Soft Delete Roster
+      ↓
+Finish
 ```
 
 Ketentuan:
 
-- Menggunakan Shared Workspace Header.
 - Business logic berada di `TeamService`.
-- `TeamService::registerTeam()` menjadi entry point registrasi.
-- Seluruh proses registrasi menggunakan Database Transaction.
-- Livewire tidak membuat Model secara langsung.
+- `registerTeam()` menjadi entry point registrasi.
+- `updateTeam()` menjadi entry point perubahan Team.
+- `deleteTeam()` menjadi entry point penghapusan Team.
+- Seluruh proses menggunakan Database Transaction.
+- Livewire tidak membuat ataupun memodifikasi Model secara langsung.
 - Team hanya menyimpan identitas Team.
-- TournamentEntry merepresentasikan Team pada Tournament.
+- TournamentEntry merepresentasikan keikutsertaan Team pada Tournament.
 - Roster merupakan snapshot pemain pada TournamentEntry.
 - Roster tidak berelasi langsung dengan Team.
 - Pagination menggunakan standar Laravel.
 - Empty State wajib tersedia.
-- Struktur folder tidak diubah tanpa keputusan arsitektur baru.
-- File baru dibuat hanya saat diperlukan (Just In Time File Creation).
 
-Relasi Domain:
+---
 
-```
-Tournament
-      │
-      ▼
-TournamentEntry
-      │
-      ▼
-Roster
-```
+# Team Delete Decision
 
-Entity:
+Status: **LOCKED**
 
-Team
+Business Rule:
 
-```
-id
-name
-description
-```
+Team hanya boleh dihapus apabila belum digunakan oleh modul lain.
 
-Roster
+Untuk Sprint 1, seluruh Team dianggap masih dapat dihapus karena modul berikut belum tersedia:
+
+- Stage
+- Match
+- Score
+- Leaderboard
+
+Seluruh validasi business rule delete dipusatkan pada:
 
 ```
-id
-tournament_entry_id
-player_name
-order_number
-timestamps
-softDeletes
+TeamService::canDelete()
 ```
 
-Database Constraint:
+Modul lain tidak boleh melakukan validasi delete secara langsung.
 
-```
-unique(
-    tournament_entry_id,
-    order_number
-)
-```
+Ketika modul Stage, Match, Score, dan Leaderboard selesai dibuat, seluruh aturan tambahan harus memperluas implementasi `canDelete()` tanpa mengubah business process Team Delete.
 
-Workflow PATCH:
+Soft Delete digunakan pada:
+
+- Team
+- TournamentEntry
+- Roster
+
+Hard Delete bukan bagian dari business process normal.
+
+---
+
+# Workflow PATCH
 
 ```
 Business Process
@@ -290,7 +277,11 @@ Livewire
         ↓
 Blade
         ↓
-Testing
+Functional Test
+        ↓
+Relationship Test
+        ↓
+Data Integrity Test
         ↓
 Architecture Review
         ↓
@@ -303,5 +294,7 @@ Push
 
 Prinsip:
 
-- Business Process menjadi acuan selama tidak merusak arsitektur project.
-- UI Enhancement dikerjakan pada patch terpisah agar menghindari scope creep.
+- Business Process menjadi sumber kebenaran utama.
+- Architecture mengikuti Business Process.
+- Implementasi mengikuti Architecture Lock.
+- UI Enhancement dikerjakan pada patch terpisah untuk menghindari scope creep.
