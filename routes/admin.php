@@ -9,6 +9,8 @@ use App\Livewire\Tournament\Teams\Edit as TeamEdit;
 use App\Livewire\Tournament\Teams\Index as TeamIndex;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Tournament\Stages\Index as StageIndex;
+use App\Livewire\Tournament\Stages\Create as StageCreate;
+use App\Livewire\Tournament\Stages\Edit as StageEdit;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -39,5 +41,14 @@ Route::prefix('admin')
 
         Route::get('/tournaments/{tournament}/stages', StageIndex::class)
             ->name('tournaments.stages.index');
+
+        Route::get('/tournaments/{tournament}/stages', StageIndex::class)
+            ->name('tournaments.stages.index');
+
+        Route::get('/tournaments/{tournament}/stages/create', StageCreate::class)
+            ->name('tournaments.stages.create');
+
+        Route::get('/tournaments/{tournament}/stages/{stage}/edit', StageEdit::class)
+            ->name('tournaments.stages.edit');
 
     });
