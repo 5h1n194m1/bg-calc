@@ -42,8 +42,8 @@
             </a>
 
             <a
-                href="#"
-                class="pb-3 text-gray-400 cursor-not-allowed">
+                href="{{ route('admin.tournaments.stages.index', $tournament) }}"
+                class="pb-3 text-gray-600 hover:text-indigo-600">
                 Stages
             </a>
 

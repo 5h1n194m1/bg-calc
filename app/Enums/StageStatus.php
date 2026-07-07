@@ -2,10 +2,13 @@
 
 namespace App\Enums;
 
-enum StageStatus:string
+enum StageStatus: string
 {
-    case Draft='draft';
-    case Waiting='waiting';
-    case Running='running';
-    case Finished='finished';
+    case Draft = 'draft';
+
+    case Published = 'published';
+
+    case Running = 'running';
+
+    case Finished = 'finished';
 }

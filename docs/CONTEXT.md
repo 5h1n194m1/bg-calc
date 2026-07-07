@@ -1,22 +1,47 @@
-# BG-CALC Decisions
+# BG-CALC Context
 
-Seluruh keputusan pada file ini bersifat **LOCKED** dan dianggap final sampai diputuskan untuk diubah.
+> Last Updated: 2026-07-07
+
+## Project
+
+BG-CALC (Battleground Calculator)
+
+Tournament Management System untuk game Battleground.
 
 ---
 
-# Tech Stack
+## Current Branch
 
-- Livewire 4 (Class + Blade)
+feature/tournament-workspace
+
+---
+
+## Current Sprint
+
+Sprint 1
+
+---
+
+## Current Patch
+
+PATCH-019
+
+Stage Foundation
+
+---
+
+## Tech Stack
+
+- Laravel 13
+- PHP 8.3
+- Livewire 4
 - Tailwind CSS 4
 - Vite
-- Tidak menggunakan Single File Component (SFC)
-- Tidak menggunakan Tailwind CDN
+- MySQL
 
 ---
 
-# Architecture
-
-Flow aplikasi:
+## Architecture
 
 Route
 → Livewire
@@ -24,134 +49,70 @@ Route
 → Model
 → Database
 
-Ketentuan:
+Repository digunakan hanya untuk query kompleks.
 
-- Seluruh business logic berada di Service.
-- Livewire hanya menangani UI, state, validasi, dan pemanggilan Service.
-- Repository hanya digunakan untuk query kompleks atau yang digunakan di banyak tempat.
-- CRUD sederhana langsung menggunakan Service → Model.
+Business Logic selalu berada di Service.
 
 ---
 
-# Development Workflow
+## Progress
 
-Sebelum membuat fitur baru:
+### Completed
 
-1. Review struktur project.
-2. Review Model.
-3. Review Service.
-4. Implementasi.
+- Database Foundation
+- Models
+- Migration
+- Enum
+- Service Foundation
+- Livewire Configuration
+- Project Cleanup
+- Documentation
+- Tournament CRUD
+- Tournament Workspace Foundation
+- Tournament Workspace Overview
+- Team Database Foundation
+- Team List
+- Team Registration
+- Team Edit
+- Team Delete
+- Roster Foundation
+- Stage Foundation
 
-Setiap PATCH:
+### In Progress
 
-1. Implementasi
-2. Testing
-3. Commit
-4. Update `docs/CONTEXT.md`
-5. Update `docs/TASKS.md`
-6. Update `docs/DECISIONS.md` (jika ada keputusan baru)
+- Stage CRUD Preparation
 
----
+### Next
 
-# Git Workflow
-
-- Branch Sprint 1:
-
-```
-feature/tournament-workspace
-```
-
-- Merge ke `develop-v2` setelah Sprint 1 stabil.
-- Satu PATCH = satu commit utama.
-- Commit tambahan hanya untuk fix atau cleanup.
-
----
-
-# AI Collaboration
-
-Gunakan sebagai sumber konteks utama:
-
-- docs/CONTEXT.md
-- docs/TASKS.md
-- docs/DECISIONS.md
-
----
-
-# Tournament
-
-### Required
-
-- game_id
-- point_system_template_id
-- name
-
-### Nullable
-
-- description
-- banner
-- registration_start
-- registration_end
-- start_date
-- end_date
-
-### Default
-
-- status = draft
-- is_public = true
-
-Seluruh string kosong (`""`) dinormalisasi menjadi `null` di Service.
+1. Stage Create
+2. Stage Edit
+3. Stage Delete
+4. Match Manager Foundation
+5. Leaderboard Foundation
+6. Dashboard
 
 ---
 
 # Tournament Module
 
-Status: **COMPLETED (Sprint 1)**
+Status:
 
-Struktur:
+COMPLETED (Sprint 1)
 
-```
-app/Livewire/
-├── Concerns/
-│   └── WithTournamentForm.php
-└── Tournament/
-    ├── Index.php
-    ├── Create.php
-    ├── Edit.php
-    └── Workspace.php
-
-resources/views/livewire/tournament/
-├── _form.blade.php
-├── _header.blade.php
-├── _table.blade.php
-├── _delete-modal.blade.php
-├── _workspace-header.blade.php
-├── index.blade.php
-├── create.blade.php
-├── edit.blade.php
-└── workspace.blade.php
-```
-
-Ketentuan:
-
-- Create dan Edit menggunakan `WithTournamentForm`.
-- Berbagi `_form.blade.php`.
-- Delete diimplementasikan pada `Index`.
-- Business logic berada di `TournamentService`.
-- Workspace menjadi pusat pengelolaan Tournament.
-- Tidak ada refactor tanpa keputusan arsitektur baru.
+Workspace menjadi pusat pengelolaan Tournament.
 
 Flow:
 
-```
+
 Tournament
-    ↓
+↓
 Workspace
-    ├── Overview
-    ├── Team Manager
-    ├── Stage Manager
-    ├── Match Manager
-    └── Leaderboard
-```
+├── Overview
+├── Team Manager
+├── Stage Manager
+├── Match Manager
+└── Leaderboard
+
 
 ---
 
@@ -159,149 +120,138 @@ Workspace
 
 Status:
 
-- **PATCH-014 DATABASE FOUNDATION LOCKED**
-- **PATCH-015 TEAM LIST LOCKED**
-- **PATCH-016 TEAM REGISTRATION LOCKED**
+- PATCH-014 DATABASE FOUNDATION LOCKED
+- PATCH-015 TEAM LIST LOCKED
+- PATCH-016 TEAM REGISTRATION LOCKED
+- PATCH-017 TEAM EDIT LOCKED
+- PATCH-018 TEAM DELETE LOCKED
 
-Struktur:
+Domain:
 
-```
-app/Livewire/Tournament/Teams/
-└── Index.php
-
-resources/views/livewire/tournament/teams/
-└── index.blade.php
-```
-
-PATCH-014 Completed:
-
-- Team Model
-- TournamentEntry Model
-- Team Migration
-- TournamentEntry Migration
-- Team Relationships
-- Foreign Key Constraints
-- SoftDeletes Support
-
-PATCH-015 Completed:
-
-- Team List
-
-PATCH-016:
-
-Business Process:
-
-```
-Tournament
-      ↓
-Register Team
-      ↓
-Create Team
-      ↓
-Create TournamentEntry
-      ↓
-Create Roster
-      ↓
-Finish
-```
-
-Arsitektur tetap:
-
-```
-Route
-→ Livewire
-→ Service
-→ Model
-→ Database
-```
-
-Ketentuan:
-
-- Menggunakan Shared Workspace Header.
-- Business logic berada di `TeamService`.
-- `TeamService::registerTeam()` menjadi entry point registrasi.
-- Seluruh proses registrasi menggunakan Database Transaction.
-- Livewire tidak membuat Model secara langsung.
-- Team hanya menyimpan identitas Team.
-- TournamentEntry merepresentasikan Team pada Tournament.
-- Roster merupakan snapshot pemain pada TournamentEntry.
-- Roster tidak berelasi langsung dengan Team.
-- Pagination menggunakan standar Laravel.
-- Empty State wajib tersedia.
-- Struktur folder tidak diubah tanpa keputusan arsitektur baru.
-- File baru dibuat hanya saat diperlukan (Just In Time File Creation).
-
-Relasi Domain:
-
-```
-Tournament
-      │
-      ▼
-TournamentEntry
-      │
-      ▼
-Roster
-```
-
-Entity:
 
 Team
 
-```
-id
-name
-description
-```
+↓
+
+TournamentEntry
+
+↓
 
 Roster
 
-```
+
+Ketentuan:
+
+- Team menyimpan identitas Team.
+- TournamentEntry merepresentasikan keikutsertaan Team pada Tournament.
+- Roster merupakan snapshot pemain pada TournamentEntry.
+- Roster tidak berelasi langsung dengan Team.
+- Business logic berada pada TeamService.
+- Seluruh proses menggunakan Database Transaction.
+
+---
+
+# Stage Module
+
+Status:
+
+PATCH-019 STAGE FOUNDATION LOCKED
+
+Stage merupakan fase Tournament.
+
+Stage bukan Round.
+
+Hierarchy:
+
+
+Tournament
+
+↓
+
+Stage
+
+↓
+
+Match
+
+↓
+
+Result
+
+↓
+
+Leaderboard
+
+
+Entity Stage:
+
+
 id
-tournament_entry_id
-player_name
+
+tournament_id
+
+name
+
+description
+
 order_number
+
+status
+
 timestamps
+
 softDeletes
-```
 
-Database Constraint:
 
-```
-unique(
-    tournament_entry_id,
-    order_number
-)
-```
+Status:
 
-Workflow PATCH:
 
-```
-Business Process
-        ↓
-Architecture
-        ↓
-Database
-        ↓
-Model
-        ↓
-Service
-        ↓
-Livewire
-        ↓
-Blade
-        ↓
-Testing
-        ↓
-Architecture Review
-        ↓
-LOCK PATCH
-        ↓
-Commit
-        ↓
-Push
-```
+draft
 
-Prinsip:
+published
 
-- Business Process menjadi acuan selama tidak merusak arsitektur project.
-- UI Enhancement dikerjakan pada patch terpisah agar menghindari scope creep.
+running
+
+finished
+
+
+Relationship:
+
+Tournament:
+
+
+hasMany(Stage)
+
+
+Stage:
+
+
+belongsTo(Tournament)
+
+
+Match:
+
+Belum diimplementasikan.
+
+---
+
+# Current Notes
+
+PATCH-019 hanya membangun pondasi Stage.
+
+Tidak terdapat:
+
+- Stage CRUD
+- Match
+- Bracket
+- Generator
+- Seeding
+- Promotion
+
+Fitur tersebut dipindahkan ke PATCH berikutnya.
+
+---
+
+# Last Commit
+
+feat(stage): implement stage foundation

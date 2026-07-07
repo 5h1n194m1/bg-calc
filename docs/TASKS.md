@@ -42,7 +42,10 @@
 
 ### Workspace
 
-- [ ] Stage Manager Foundation
+- [x] Stage Manager Foundation
+- [ ] Stage Create
+- [ ] Stage Edit
+- [ ] Stage Delete
 - [ ] Match Manager Foundation
 - [ ] Leaderboard Foundation
 

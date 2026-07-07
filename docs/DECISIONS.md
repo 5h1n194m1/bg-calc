@@ -28,117 +28,67 @@ Ketentuan:
 
 - Seluruh business logic berada di Service.
 - Livewire hanya menangani UI, state, validasi, dan pemanggilan Service.
-- Repository hanya digunakan untuk query kompleks atau yang digunakan di banyak tempat.
+- Repository hanya digunakan untuk query kompleks.
 - CRUD sederhana langsung menggunakan Service → Model.
 
 ---
 
 # Development Workflow
 
-Sebelum membuat fitur baru:
-
-1. Review struktur project.
-2. Review Model.
-3. Review Service.
-4. Implementasi.
-
 Setiap PATCH:
 
-1. Implementasi
-2. Testing
-3. Commit
-4. Update `docs/CONTEXT.md`
-5. Update `docs/TASKS.md`
-6. Update `docs/DECISIONS.md` (jika ada keputusan baru)
+1. Business Process Review
+2. Architecture Review
+3. Implementation
+4. Functional Test
+5. Relationship Test
+6. Data Integrity Test
+7. QA Review
+8. Architecture Review
+9. LOCK PATCH
+10. Commit
+11. Push
 
 ---
 
 # Git Workflow
 
-- Branch Sprint 1:
+Branch:
 
-```
+
 feature/tournament-workspace
-```
 
-- Merge ke `develop-v2` setelah Sprint 1 stabil.
+
+Ketentuan:
+
 - Satu PATCH = satu commit utama.
 - Commit tambahan hanya untuk fix atau cleanup.
 
 ---
 
-# AI Collaboration
-
-Gunakan sebagai sumber konteks utama:
-
-- docs/CONTEXT.md
-- docs/TASKS.md
-- docs/DECISIONS.md
-
----
-
-# Tournament
-
-### Required
-
-- game_id
-- point_system_template_id
-- name
-
-### Nullable
-
-- description
-- banner
-- registration_start
-- registration_end
-- start_date
-- end_date
-
-### Default
-
-- status = draft
-- is_public = true
-
-Seluruh string kosong (`""`) dinormalisasi menjadi `null` di Service.
-
----
-
 # Tournament Module
 
-Status: **COMPLETED (Sprint 1)**
+Status:
 
-Struktur:
+COMPLETED (Sprint 1)
 
-```
-app/Livewire/
-├── Concerns/
-│   └── WithTournamentForm.php
-└── Tournament/
-    ├── Index.php
-    ├── Create.php
-    ├── Edit.php
-    └── Workspace.php
+Workspace menjadi pusat pengelolaan Tournament.
 
-resources/views/livewire/tournament/
-├── _form.blade.php
-├── _header.blade.php
-├── _table.blade.php
-├── _delete-modal.blade.php
-├── _workspace-header.blade.php
-├── index.blade.php
-├── create.blade.php
-├── edit.blade.php
-└── workspace.blade.php
-```
+Flow:
 
-Ketentuan:
 
-- Create dan Edit menggunakan `WithTournamentForm`.
-- Berbagi `_form.blade.php`.
-- Delete diimplementasikan pada `Index`.
-- Business logic berada di `TournamentService`.
-- Workspace menjadi pusat pengelolaan Tournament.
-- Tidak ada refactor tanpa keputusan arsitektur baru.
+Tournament
+
+↓
+
+Workspace
+
+├── Overview
+├── Team Manager
+├── Stage Manager
+├── Match Manager
+└── Leaderboard
+
 
 ---
 
@@ -146,109 +96,56 @@ Ketentuan:
 
 Status:
 
-- **PATCH-014 DATABASE FOUNDATION LOCKED**
-- **PATCH-015 TEAM LIST LOCKED**
-- **PATCH-016 TEAM REGISTRATION LOCKED**
-- **PATCH-017 TEAM EDIT LOCKED**
-- **PATCH-018 TEAM DELETE LOCKED**
+- PATCH-014 LOCKED
+- PATCH-015 LOCKED
+- PATCH-016 LOCKED
+- PATCH-017 LOCKED
+- PATCH-018 LOCKED
 
-Arsitektur tetap:
+Architecture:
 
-```
+
 Route
-→ Livewire
-→ TeamService
-→ Model
-→ Database
-```
 
-Business Process Team Registration:
+↓
 
-```
-Tournament
-      ↓
-Register Team
-      ↓
-Create Team
-      ↓
-Create TournamentEntry
-      ↓
-Create Roster
-      ↓
-Finish
-```
+Livewire
 
-Business Process Team Edit:
+↓
 
-```
-TournamentEntry
-      ↓
-Update Team
-      ↓
-Replace Roster Snapshot
-      ↓
-Finish
-```
+TeamService
 
-Business Process Team Delete:
+↓
 
-```
-Open Team
-      ↓
-Delete
-      ↓
-canDelete()
-      ↓
-Soft Delete Team
-      ↓
-Soft Delete TournamentEntry
-      ↓
-Soft Delete Roster
-      ↓
-Finish
-```
+Model
 
-Ketentuan:
+↓
 
-- Business logic berada di `TeamService`.
-- `registerTeam()` menjadi entry point registrasi.
-- `updateTeam()` menjadi entry point perubahan Team.
-- `deleteTeam()` menjadi entry point penghapusan Team.
-- Seluruh proses menggunakan Database Transaction.
-- Livewire tidak membuat ataupun memodifikasi Model secara langsung.
-- Team hanya menyimpan identitas Team.
-- TournamentEntry merepresentasikan keikutsertaan Team pada Tournament.
-- Roster merupakan snapshot pemain pada TournamentEntry.
+Database
+
+
+Business Rule:
+
+- Team menyimpan identitas.
+- TournamentEntry menyimpan keikutsertaan Team.
+- Roster adalah snapshot pemain.
 - Roster tidak berelasi langsung dengan Team.
-- Pagination menggunakan standar Laravel.
-- Empty State wajib tersedia.
 
 ---
 
 # Team Delete Decision
 
-Status: **LOCKED**
+Status:
 
-Business Rule:
+LOCKED
 
-Team hanya boleh dihapus apabila belum digunakan oleh modul lain.
+Team hanya boleh dihapus jika belum digunakan modul lain.
 
-Untuk Sprint 1, seluruh Team dianggap masih dapat dihapus karena modul berikut belum tersedia:
+Validasi delete dipusatkan pada:
 
-- Stage
-- Match
-- Score
-- Leaderboard
 
-Seluruh validasi business rule delete dipusatkan pada:
-
-```
 TeamService::canDelete()
-```
 
-Modul lain tidak boleh melakukan validasi delete secara langsung.
-
-Ketika modul Stage, Match, Score, dan Leaderboard selesai dibuat, seluruh aturan tambahan harus memperluas implementasi `canDelete()` tanpa mengubah business process Team Delete.
 
 Soft Delete digunakan pada:
 
@@ -256,45 +153,152 @@ Soft Delete digunakan pada:
 - TournamentEntry
 - Roster
 
-Hard Delete bukan bagian dari business process normal.
+Hard Delete bukan bagian business process normal.
 
 ---
 
-# Workflow PATCH
+# Stage Module
 
-```
-Business Process
-        ↓
-Architecture
-        ↓
-Database
-        ↓
-Model
-        ↓
-Service
-        ↓
-Livewire
-        ↓
-Blade
-        ↓
-Functional Test
-        ↓
-Relationship Test
-        ↓
-Data Integrity Test
-        ↓
-Architecture Review
-        ↓
-LOCK PATCH
-        ↓
-Commit
-        ↓
-Push
-```
+Status:
 
-Prinsip:
+PATCH-019 LOCKED
 
-- Business Process menjadi sumber kebenaran utama.
-- Architecture mengikuti Business Process.
-- Implementasi mengikuti Architecture Lock.
-- UI Enhancement dikerjakan pada patch terpisah untuk menghindari scope creep.
+Stage merupakan fase Tournament.
+
+Stage bukan Round.
+
+Hierarchy:
+
+
+Tournament
+
+↓
+
+Stage
+
+↓
+
+Match
+
+↓
+
+Result
+
+↓
+
+Leaderboard
+
+
+---
+
+# Stage Foundation Decision
+
+Entity:
+
+
+stages
+
+id
+
+tournament_id
+
+name
+
+description
+
+order_number
+
+status
+
+timestamps
+
+deleted_at
+
+
+Status Enum:
+
+
+draft
+
+published
+
+running
+
+finished
+
+
+Relationship:
+
+Tournament:
+
+
+hasMany(Stage)
+
+
+Stage:
+
+
+belongsTo(Tournament)
+
+
+Match belum diimplementasikan.
+
+---
+
+# PATCH-019 Scope
+
+Implementasi:
+
+- Stage Migration
+- Stage Model
+- StageStatus Enum
+- Tournament Relationship
+- StageService Foundation
+- Stage Manager Page
+
+Tidak termasuk:
+
+- Create Stage
+- Edit Stage
+- Delete Stage
+- Match
+- Bracket
+- Generator
+- Seeding
+- Promotion
+
+---
+
+# Architecture Queue
+
+Current:
+
+
+PATCH-019
+
+LOCKED
+
+PATCH-020
+
+LOCK
+
+PATCH-021
+
+DRAFT
+
+
+PATCH-020:
+
+Stage CRUD
+
+Scope:
+
+- Create Stage
+- Edit Stage
+- Delete Stage
+- Validation
+- Transaction
+
+PATCH-021:
+
+Match Foundation
