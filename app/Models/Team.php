@@ -3,11 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Team extends Model
 {
-    public function entries()
-{
-    return $this->hasMany(TournamentEntry::class);
-}
+    use SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
+    public function entries(): HasMany
+    {
+        return $this->hasMany(TournamentEntry::class);
+    }
 }
