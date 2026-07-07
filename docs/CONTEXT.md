@@ -26,7 +26,7 @@ Sprint 1
 
 PATCH-016
 
-Team Create
+Team Registration
 
 ---
 
@@ -50,6 +50,8 @@ Route
 
 Repository digunakan hanya untuk query kompleks.
 
+Business Logic selalu berada di Service.
+
 ---
 
 ## Progress
@@ -69,10 +71,13 @@ Repository digunakan hanya untuk query kompleks.
 - Tournament Workspace Overview
 - Team Database Foundation
 - Team List
+- Team Registration
+- Roster Foundation
 
 ### In Progress
 
-- Team Create
+- Documentation Update
+- Final Review
 
 ### Next
 
@@ -91,20 +96,37 @@ Tournament Module telah di-lock.
 
 Workspace menjadi pusat seluruh pengelolaan Tournament.
 
-Team Database Foundation telah selesai.
+PATCH-014 dan PATCH-015 tetap LOCKED.
 
-Team List telah selesai.
+PATCH-016 mengubah business process dari Team Create menjadi Team Registration.
 
-Seluruh Team List menggunakan:
+Flow registrasi:
 
-Route
-→ Livewire
-→ TeamService
-→ Model
+Tournament
 
-Business Logic tetap berada di TeamService.
+↓
 
-PATCH-016 dimulai dari Team Create.
+Create Team
+
+↓
+
+Create TournamentEntry
+
+↓
+
+Create Roster
+
+↓
+
+Finish
+
+Roster merupakan snapshot pemain pada TournamentEntry.
+
+Roster tidak berelasi langsung dengan Team.
+
+Seluruh business logic berada di TeamService::registerTeam().
+
+Seluruh proses registrasi menggunakan Database Transaction.
 
 ---
 

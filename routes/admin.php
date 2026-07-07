@@ -3,9 +3,10 @@
 use App\Livewire\Tournament\Create;
 use App\Livewire\Tournament\Edit;
 use App\Livewire\Tournament\Index;
-use App\Livewire\Tournament\Teams\Index as TeamIndex;
 use App\Livewire\Tournament\Workspace;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Tournament\Teams\Create as TeamCreate;
+use App\Livewire\Tournament\Teams\Index as TeamIndex;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -27,5 +28,8 @@ Route::prefix('admin')
 
         Route::get('/tournaments/{tournament}/edit', Edit::class)
             ->name('tournaments.edit');
+
+        Route::get('/tournaments/{tournament}/teams/create', TeamCreate::class)
+            ->name('tournaments.teams.create');
 
     });

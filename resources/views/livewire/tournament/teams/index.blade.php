@@ -8,11 +8,11 @@
             Team Manager
         </h2>
 
-        <button
-            type="button"
+        <a
+            href="{{ route('admin.tournaments.teams.create', $tournament) }}"
             class="rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
             New Team
-        </button>
+        </a>
 
     </div>
 

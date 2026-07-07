@@ -40,7 +40,7 @@ Sebelum membuat fitur baru:
 1. Review struktur project.
 2. Review Model.
 3. Review Service.
-4. Baru implementasi.
+4. Implementasi.
 
 Setiap PATCH:
 
@@ -49,13 +49,13 @@ Setiap PATCH:
 3. Commit
 4. Update `docs/CONTEXT.md`
 5. Update `docs/TASKS.md`
-6. Jika ada keputusan baru → Update `docs/DECISIONS.md`
+6. Update `docs/DECISIONS.md` (jika ada keputusan baru)
 
 ---
 
 # Git Workflow
 
-- Seluruh Sprint 1 dikerjakan pada branch:
+- Branch Sprint 1:
 
 ```
 feature/tournament-workspace
@@ -69,19 +69,15 @@ feature/tournament-workspace
 
 # AI Collaboration
 
-Setiap berpindah chat, gunakan sebagai sumber konteks utama:
+Gunakan sebagai sumber konteks utama:
 
 - docs/CONTEXT.md
 - docs/TASKS.md
 - docs/DECISIONS.md
 
-Jawaban harus mengikuti kondisi project saat ini dan tidak mengulang perancangan dari awal.
-
 ---
 
 # Tournament
-
-Tournament dapat dibuat dengan data minimum.
 
 ### Required
 
@@ -98,12 +94,12 @@ Tournament dapat dibuat dengan data minimum.
 - start_date
 - end_date
 
-Seluruh string kosong (`""`) dinormalisasi menjadi `null` di Service.
-
 ### Default
 
 - status = draft
 - is_public = true
+
+Seluruh string kosong (`""`) dinormalisasi menjadi `null` di Service.
 
 ---
 
@@ -138,16 +134,16 @@ resources/views/livewire/tournament/
 Ketentuan:
 
 - Create dan Edit menggunakan `WithTournamentForm`.
-- Create dan Edit berbagi `_form.blade.php`.
+- Berbagi `_form.blade.php`.
 - Delete diimplementasikan pada `Index`.
-- Seluruh business logic berada di `TournamentService`.
-- Workspace menjadi pusat seluruh pengelolaan Tournament.
-- Tidak ada refactor tambahan kecuali bug atau keputusan arsitektur baru.
+- Business logic berada di `TournamentService`.
+- Workspace menjadi pusat pengelolaan Tournament.
+- Tidak ada refactor tanpa keputusan arsitektur baru.
 
 Flow:
 
 ```
-Tournament List
+Tournament
     ↓
 Workspace
     ├── Overview
@@ -161,9 +157,13 @@ Workspace
 
 # Team Manager
 
-Status: **DATABASE FOUNDATION LOCKED**
+Status:
 
-Struktur awal:
+- **PATCH-014 DATABASE FOUNDATION LOCKED**
+- **PATCH-015 TEAM LIST LOCKED**
+- **PATCH-016 TEAM REGISTRATION LOCKED**
+
+Struktur:
 
 ```
 app/Livewire/Tournament/Teams/
@@ -173,7 +173,7 @@ resources/views/livewire/tournament/teams/
 └── index.blade.php
 ```
 
-Database Foundation:
+PATCH-014 Completed:
 
 - Team Model
 - TournamentEntry Model
@@ -183,10 +183,29 @@ Database Foundation:
 - Foreign Key Constraints
 - SoftDeletes Support
 
-Ketentuan:
+PATCH-015 Completed:
 
-- Menggunakan Shared Workspace Header (`_workspace-header.blade.php`).
-- Mengikuti arsitektur project:
+- Team List
+
+PATCH-016:
+
+Business Process:
+
+```
+Tournament
+      ↓
+Register Team
+      ↓
+Create Team
+      ↓
+Create TournamentEntry
+      ↓
+Create Roster
+      ↓
+Finish
+```
+
+Arsitektur tetap:
 
 ```
 Route
@@ -196,68 +215,93 @@ Route
 → Database
 ```
 
-- Business logic tetap berada di Service.
-- File baru dibuat hanya saat benar-benar diperlukan (Just In Time File Creation).
-- Struktur folder Tournament Workspace tidak boleh diubah tanpa keputusan arsitektur baru.
-- PATCH-015 melanjutkan implementasi Team CRUD di atas fondasi database yang telah di-lock.
-
----
-
-# Team Manager
-
-Status: **LIST LOCKED**
-
-PATCH-014
-
-Completed:
-
-- Team Database Foundation
-
-PATCH-015
-
-Completed:
-
-- Team List
-
 Ketentuan:
 
-- Team List mengambil data melalui TeamService.
-- Livewire tidak mengandung business logic.
-- Data Team berasal dari TournamentEntry.
+- Menggunakan Shared Workspace Header.
+- Business logic berada di `TeamService`.
+- `TeamService::registerTeam()` menjadi entry point registrasi.
+- Seluruh proses registrasi menggunakan Database Transaction.
+- Livewire tidak membuat Model secara langsung.
+- Team hanya menyimpan identitas Team.
+- TournamentEntry merepresentasikan Team pada Tournament.
+- Roster merupakan snapshot pemain pada TournamentEntry.
+- Roster tidak berelasi langsung dengan Team.
 - Pagination menggunakan standar Laravel.
-- Empty State wajib tersedia ketika Tournament belum memiliki Team.
+- Empty State wajib tersedia.
+- Struktur folder tidak diubah tanpa keputusan arsitektur baru.
+- File baru dibuat hanya saat diperlukan (Just In Time File Creation).
 
-Workflow implementasi Team mengikuti pola:
+Relasi Domain:
 
-Database Foundation
-↓
+```
+Tournament
+      │
+      ▼
+TournamentEntry
+      │
+      ▼
+Roster
+```
 
+Entity:
+
+Team
+
+```
+id
+name
+description
+```
+
+Roster
+
+```
+id
+tournament_entry_id
+player_name
+order_number
+timestamps
+softDeletes
+```
+
+Database Constraint:
+
+```
+unique(
+    tournament_entry_id,
+    order_number
+)
+```
+
+Workflow PATCH:
+
+```
+Business Process
+        ↓
+Architecture
+        ↓
+Database
+        ↓
 Model
-
-↓
-
+        ↓
 Service
-
-↓
-
+        ↓
 Livewire
-
-↓
-
+        ↓
 Blade
-
-↓
-
+        ↓
 Testing
+        ↓
+Architecture Review
+        ↓
+LOCK PATCH
+        ↓
+Commit
+        ↓
+Push
+```
 
-↓
+Prinsip:
 
-Review
-
-↓
-
-Lock PATCH
-
-UI bukan prioritas pada Sprint 1.
-
-Selama fungsionalitas telah sesuai arsitektur, improvement visual akan dilakukan pada patch atau sprint terpisah untuk menghindari scope creep.
+- Business Process menjadi acuan selama tidak merusak arsitektur project.
+- UI Enhancement dikerjakan pada patch terpisah agar menghindari scope creep.

@@ -30,11 +30,13 @@
 
 - [x] Team Database Foundation
 - [x] Team List
-- [ ] Team Create
+- [x] Team Registration
+- [x] Roster Foundation
 - [ ] Team Edit
 - [ ] Team Delete
 - [ ] Team Validation
 - [ ] Team Pagination
+- [ ] Team UI Enhancement (Roster Preview)
 
 ---
 

@@ -2,10 +2,70 @@
 
 namespace App\Livewire\Tournament\Teams;
 
+use App\Models\Tournament;
+use App\Services\TeamService;
 use Livewire\Component;
 
 class Create extends Component
 {
+    public Tournament $tournament;
+
+    public array $form = [
+        'name' => '',
+        'rosters' => [
+            '',
+        ],
+    ];
+
+    protected function rules(): array
+    {
+        return [
+            'form.name' => ['required', 'string', 'max:255'],
+
+            'form.rosters' => ['required', 'array', 'min:1'],
+
+            'form.rosters.*' => ['required', 'string', 'max:255'],
+        ];
+    }
+
+    public function mount(Tournament $tournament): void
+    {
+        $this->tournament = $tournament;
+    }
+
+    public function addRoster(): void
+    {
+        $this->form['rosters'][] = '';
+    }
+
+    public function removeRoster(int $index): void
+    {
+        if (count($this->form['rosters']) <= 1) {
+            return;
+        }
+
+        unset($this->form['rosters'][$index]);
+
+        $this->form['rosters'] = array_values(
+            $this->form['rosters']
+        );
+    }
+
+    public function save(TeamService $teamService): mixed
+    {
+        $validated = $this->validate();
+
+        $teamService->registerTeam(
+            $this->tournament,
+            $validated['form']
+        );
+
+        return redirect()->route(
+            'admin.tournaments.teams.index',
+            $this->tournament
+        );
+    }
+
     public function render()
     {
         return view('livewire.tournament.teams.create');
