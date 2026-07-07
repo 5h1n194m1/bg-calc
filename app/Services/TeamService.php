@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Roster;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\Models\TournamentEntry;
 use Illuminate\Support\Facades\DB;
-use App\Models\Roster;
 
 class TeamService
 {
@@ -14,7 +14,10 @@ class TeamService
     {
         return $tournament
             ->entries()
-            ->with('team')
+            ->with([
+                'team',
+                'rosters',
+            ])
             ->latest()
             ->paginate($perPage);
     }
@@ -37,19 +40,45 @@ class TeamService
 
             foreach ($data['rosters'] as $index => $playerName) {
 
-            if (blank($playerName)) {
-                continue;
-            }
+                if (blank($playerName)) {
+                    continue;
+                }
+
                 Roster::create([
                     'tournament_entry_id' => $entry->id,
                     'player_name' => $playerName,
                     'order_number' => $index + 1,
                 ]);
-
             }
 
             return $team;
         });
     }
 
+    public function updateTeam(TournamentEntry $entry, array $data): Team
+    {
+        return DB::transaction(function () use ($entry, $data) {
+
+            $entry->team->update([
+                'name' => $data['name'],
+            ]);
+
+            $entry->rosters()->forcedelete();
+
+            foreach ($data['rosters'] as $index => $playerName) {
+
+                if (blank($playerName)) {
+                    continue;
+                }
+
+                Roster::create([
+                    'tournament_entry_id' => $entry->id,
+                    'player_name' => $playerName,
+                    'order_number' => $index + 1,
+                ]);
+            }
+
+            return $entry->team->fresh();
+        });
+    }
 }

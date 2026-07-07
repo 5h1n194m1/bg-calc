@@ -47,7 +47,16 @@
                         </td>
 
                         <td class="px-4 py-3 text-center">
-                            -
+
+                            <a
+                                href="{{ route('admin.tournaments.teams.edit', [
+                                    'tournament' => $tournament,
+                                    'entry' => $entry,
+                                ]) }}"
+                                class="rounded border px-3 py-1 hover:bg-gray-100">
+                                Edit
+                            </a>
+
                         </td>
 
                     </tr>
