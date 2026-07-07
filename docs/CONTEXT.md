@@ -1,6 +1,6 @@
 # BG-CALC Context
 
-> Last Updated: 2026-07-06
+> Last Updated: 2026-07-07
 
 ## Project
 
@@ -24,7 +24,7 @@ Sprint 1
 
 ## Current Patch
 
-PATCH-014
+PATCH-015
 
 Team CRUD
 
@@ -68,6 +68,9 @@ Repository digunakan hanya untuk query kompleks.
 - Tournament Workspace Foundation
 - Tournament Workspace Overview
 - Team Manager Foundation
+- Team Database Foundation
+- TournamentEntry Database Foundation
+- Team Relationships
 
 ### In Progress
 
@@ -75,10 +78,15 @@ Repository digunakan hanya untuk query kompleks.
 
 ### Next
 
-1. Stage Manager Foundation
-2. Match Manager Foundation
-3. Leaderboard Foundation
-4. Dashboard
+1. Team Service
+2. Team Create
+3. Team Edit
+4. Team Delete
+5. Team Validation
+6. Stage Manager Foundation
+7. Match Manager Foundation
+8. Leaderboard Foundation
+9. Dashboard
 
 ---
 
@@ -89,6 +97,8 @@ Module Tournament telah di-lock.
 Workspace menjadi pusat seluruh pengelolaan Tournament.
 
 Team Manager Foundation telah selesai dan menjadi dasar implementasi Team CRUD.
+
+PATCH-014 telah selesai dan di-freeze setelah implementasi database foundation untuk Team dan TournamentEntry berhasil divalidasi.
 
 Seluruh CRUD mengikuti pola:
 
@@ -101,6 +111,4 @@ Route
 
 ## Last Commit
 
-1940dcb
-
-docs: update tournament workspace overview
+feat(team): implement team database foundation

@@ -161,7 +161,7 @@ Workspace
 
 # Team Manager
 
-Status: **FOUNDATION LOCKED**
+Status: **DATABASE FOUNDATION LOCKED**
 
 Struktur awal:
 
@@ -172,6 +172,16 @@ app/Livewire/Tournament/Teams/
 resources/views/livewire/tournament/teams/
 └── index.blade.php
 ```
+
+Database Foundation:
+
+- Team Model
+- TournamentEntry Model
+- Team Migration
+- TournamentEntry Migration
+- Team Relationships
+- Foreign Key Constraints
+- SoftDeletes Support
 
 Ketentuan:
 
@@ -189,3 +199,4 @@ Route
 - Business logic tetap berada di Service.
 - File baru dibuat hanya saat benar-benar diperlukan (Just In Time File Creation).
 - Struktur folder Tournament Workspace tidak boleh diubah tanpa keputusan arsitektur baru.
+- PATCH-015 melanjutkan implementasi Team CRUD di atas fondasi database yang telah di-lock.

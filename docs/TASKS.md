@@ -28,13 +28,15 @@
 
 ### Team Manager
 
-- [x] Team Manager Foundation
+- [x] Team Database Foundation
+- [x] TournamentEntry Database Foundation
+- [x] Team Relationships
+- [ ] Team Service
 - [ ] Team List
 - [ ] Team Create
 - [ ] Team Edit
 - [ ] Team Delete
 - [ ] Team Validation
-- [ ] Team Service
 - [ ] Team Pagination
 
 ---
