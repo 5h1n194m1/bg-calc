@@ -1,6 +1,6 @@
 # BG-CALC Context
 
-> Last Updated: 2026-07-07
+> Last Updated: 2026-07-08
 
 ## Project
 
@@ -24,9 +24,9 @@ Sprint 1
 
 ## Current Patch
 
-PATCH-019
+PATCH-022
 
-Stage Foundation
+Result CRUD
 
 ---
 
@@ -55,9 +55,9 @@ Business Logic selalu berada di Service.
 
 ---
 
-## Progress
+# Progress
 
-### Completed
+## Completed
 
 - Database Foundation
 - Models
@@ -67,29 +67,76 @@ Business Logic selalu berada di Service.
 - Livewire Configuration
 - Project Cleanup
 - Documentation
+
+### Tournament Module
+
 - Tournament CRUD
 - Tournament Workspace Foundation
 - Tournament Workspace Overview
+
+### Team Manager
+
 - Team Database Foundation
 - Team List
 - Team Registration
 - Team Edit
 - Team Delete
 - Roster Foundation
+
+### Stage Module
+
 - Stage Foundation
+- Stage CRUD
 
-### In Progress
+### GameMatch Module
 
-- Stage CRUD Preparation
+- GameMatch Foundation
+- GameMatchService
+- GameMatch CRUD
 
-### Next
+### Result Module
 
-1. Stage Create
-2. Stage Edit
-3. Stage Delete
-4. Match Manager Foundation
-5. Leaderboard Foundation
-6. Dashboard
+- Result Foundation
+- ResultService
+
+---
+
+## In Progress
+
+- PATCH-022 Result CRUD Finalization
+
+---
+
+## Next
+
+1. QA Result CRUD
+2. PATCH-022 Lock
+3. Leaderboard Foundation Planning
+4. Dashboard
+
+
+---
+
+# Current Domain Flow
+
+Tournament
+
+↓
+
+Stage
+
+↓
+
+GameMatch
+
+↓
+
+Result
+
+↓
+
+Leaderboard
+
 
 ---
 
@@ -105,8 +152,11 @@ Flow:
 
 
 Tournament
+
 ↓
+
 Workspace
+
 ├── Overview
 ├── Team Manager
 ├── Stage Manager
@@ -125,6 +175,7 @@ Status:
 - PATCH-016 TEAM REGISTRATION LOCKED
 - PATCH-017 TEAM EDIT LOCKED
 - PATCH-018 TEAM DELETE LOCKED
+
 
 Domain:
 
@@ -149,20 +200,53 @@ Ketentuan:
 - Business logic berada pada TeamService.
 - Seluruh proses menggunakan Database Transaction.
 
+
 ---
 
 # Stage Module
 
 Status:
 
-PATCH-019 STAGE FOUNDATION LOCKED
+PATCH-020 LOCKED
+
 
 Stage merupakan fase Tournament.
 
 Stage bukan Round.
 
-Hierarchy:
 
+Entity:
+
+stages
+
+
+Relationship:
+
+Tournament:
+
+hasMany(Stage)
+
+
+Stage:
+
+belongsTo(Tournament)
+
+
+---
+
+# GameMatch Module
+
+Status:
+
+PATCH-021 LOCKED
+
+
+Entity:
+
+matches
+
+
+Architecture:
 
 Tournament
 
@@ -172,86 +256,159 @@ Stage
 
 ↓
 
-Match
+GameMatch
 
 ↓
 
 Result
 
-↓
 
-Leaderboard
+Decision:
+
+GameMatch menggunakan TournamentEntry sebagai peserta.
+
+Tidak menggunakan Team langsung.
 
 
-Entity Stage:
+Reason:
+
+Team dapat mengikuti banyak Tournament dengan roster berbeda.
 
 
-id
+Model:
 
-tournament_id
+GameMatch
 
-name
+(tabel: matches)
 
-description
 
-order_number
+Note:
 
-status
+Match tidak mengetahui:
 
-timestamps
+- Score
+- Result
+- Ranking
 
-softDeletes
 
+---
+
+# Result Module
 
 Status:
 
+PATCH-022 ACTIVE
 
-draft
 
-published
+Entity:
 
-running
-
-finished
+results
 
 
 Relationship:
 
-Tournament:
+GameMatch
+
+↓
+
+Result
 
 
-hasMany(Stage)
+Result:
+
+belongsTo(GameMatch)
 
 
-Stage:
+Winner:
+
+belongsTo(TournamentEntry)
 
 
-belongsTo(Tournament)
+Business Rules:
 
+- Satu Match hanya memiliki satu Result.
+- Winner harus peserta Match.
+- Score tidak boleh negatif.
+- Result tidak menghitung Leaderboard.
 
-Match:
-
-Belum diimplementasikan.
-
----
-
-# Current Notes
-
-PATCH-019 hanya membangun pondasi Stage.
-
-Tidak terdapat:
-
-- Stage CRUD
-- Match
-- Bracket
-- Generator
-- Seeding
-- Promotion
-
-Fitur tersebut dipindahkan ke PATCH berikutnya.
 
 ---
 
 # Last Commit
 
-feat(stage): implement stage foundation
+feat(result): implement result crud foundation
+
+# Development Environment
+
+Current Environment:
+
+Docker
+
+Project Location:
+
+C:\project\bg-calc
+
+Previous Environment:
+
+Laragon
+
+Migration Status:
+
+Completed
+
+Note:
+
+Development tidak lagi menggunakan Laragon.
+Semua testing dilakukan melalui Docker environment.
+
+---
+
+# Development Environment
+
+Status:
+
+DOCKER MIGRATION COMPLETE
+
+
+Project Location:
+
+C:\project\bg-calc
+
+
+Runtime:
+
+Docker Custom
+
+
+Services:
+
+Web:
+laravel_bgcalc_web
+
+Database:
+laravel_bgcalc_db
+
+
+Access:
+
+http://localhost:8082
+
+
+Database:
+
+MySQL 8.4
+
+Database Name:
+
+bg_calc
+
+
+Previous Environment:
+
+Laragon
+
+
+Note:
+
+Laragon tidak digunakan lagi.
+Semua development dan testing dilakukan melalui Docker.
