@@ -15,6 +15,10 @@ use App\Livewire\Tournament\Matches\Index as MatchIndex;
 use App\Livewire\Tournament\Matches\Create as MatchCreate;
 use App\Livewire\Tournament\Matches\Edit as MatchEdit;
 
+use App\Livewire\Tournament\Results\Index as ResultIndex;
+use App\Livewire\Tournament\Results\Create as ResultCreate;
+use App\Livewire\Tournament\Results\Edit as ResultEdit;
+
 Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -45,9 +49,6 @@ Route::prefix('admin')
         Route::get('/tournaments/{tournament}/stages', StageIndex::class)
             ->name('tournaments.stages.index');
 
-        Route::get('/tournaments/{tournament}/stages', StageIndex::class)
-            ->name('tournaments.stages.index');
-
         Route::get('/tournaments/{tournament}/stages/create', StageCreate::class)
             ->name('tournaments.stages.create');
 
@@ -57,11 +58,19 @@ Route::prefix('admin')
         Route::get('/tournaments/{tournament}/stages/{stage}/matches', MatchIndex::class)
             ->name('tournaments.stages.matches.index');
 
-
         Route::get('/tournaments/{tournament}/stages/{stage}/matches/create', MatchCreate::class)
             ->name('tournaments.stages.matches.create');
 
         Route::get('/tournaments/{tournament}/stages/{stage}/matches/{match}/edit', MatchEdit::class)
             ->name('tournaments.stages.matches.edit');
+
+        Route::get('/tournaments/{tournament}/stages/{stage}/matches/{match}/results', ResultIndex::class)
+            ->name('tournaments.stages.matches.results.index');
+
+        Route::get('/tournaments/{tournament}/stages/{stage}/matches/{match}/results/create', ResultCreate::class)
+            ->name('tournaments.stages.matches.results.create');
+
+        Route::get('/tournaments/{tournament}/stages/{stage}/matches/{match}/results/{result}/edit', ResultEdit::class)
+            ->name('tournaments.stages.matches.results.edit');
 
     });

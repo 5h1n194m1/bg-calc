@@ -1,0 +1,112 @@
+<div>
+
+<h1 class="text-xl font-bold mb-4">
+Edit Result
+</h1>
+
+
+<form wire:submit="update">
+
+
+<div class="mb-3">
+
+<label>
+Winner
+</label>
+
+
+<select
+wire:model="form.winner_entry_id"
+class="border w-full"
+>
+
+@foreach($entries as $entry)
+
+<option value="{{ $entry->id }}">
+Entry #{{ $entry->id }}
+</option>
+
+@endforeach
+
+
+</select>
+
+
+</div>
+
+
+
+<div class="mb-3">
+
+<label>
+Team A Score
+</label>
+
+
+<input
+type="number"
+wire:model="form.team_a_score"
+class="border w-full"
+/>
+
+
+</div>
+
+
+
+<div class="mb-3">
+
+<label>
+Team B Score
+</label>
+
+
+<input
+type="number"
+wire:model="form.team_b_score"
+class="border w-full"
+/>
+
+
+</div>
+
+
+
+<div class="mb-3">
+
+<label>
+Status
+</label>
+
+
+<select
+wire:model="form.status"
+class="border w-full"
+>
+
+@foreach($statuses as $status)
+
+<option value="{{ $status->value }}">
+{{ ucfirst($status->value) }}
+</option>
+
+@endforeach
+
+
+</select>
+
+</div>
+
+
+
+<button
+type="submit"
+class="bg-green-600 text-white px-4 py-2 rounded"
+>
+Update
+</button>
+
+
+</form>
+
+</div>

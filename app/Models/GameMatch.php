@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\MatchStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Result;
 
 class GameMatch extends Model
 {
@@ -48,6 +49,14 @@ class GameMatch extends Model
         return $this->belongsTo(
             TournamentEntry::class,
             'team_b_entry_id'
+        );
+    }
+
+    public function result()
+    {
+        return $this->hasOne(
+            Result::class,
+            'match_id'
         );
     }
 }
