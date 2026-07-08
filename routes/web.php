@@ -7,5 +7,5 @@ require __DIR__.'/admin.php';
 require __DIR__.'/guest.php';
 
 Route::get('/', function () {
-    return 'BG Calc Sprint 1';
+    return view('dashboard');
 });

@@ -10,6 +10,9 @@
 /storage/framework/testing/*
 /storage/framework/views/*
 
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
 .env
 
 .phpunit.result.cache
