@@ -45,4 +45,8 @@ class TournamentEntry extends Model
             'winner_entry_id'
         );
     }
+    public function leaderboards()
+    {
+        return $this->hasMany(Leaderboard::class, 'entry_id');
+    }
 }

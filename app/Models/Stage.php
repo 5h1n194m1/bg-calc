@@ -34,4 +34,9 @@ class Stage extends Model
     {
         return $this->hasMany(GameMatch::class);
     }
+
+    public function leaderboards()
+    {
+        return $this->hasMany(Leaderboard::class);
+    }
 }
